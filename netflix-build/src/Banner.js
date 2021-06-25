@@ -1,7 +1,26 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import "./Banner.css";
+import axios from "./axios";
+import requests from "./Requests";
 
 function Banner() {
+    const [movie, setMovie] = useState([])
+
+    useEffect(()=>{
+        async function fetchData(){
+            const request = await axios.get(requests.fetchNetflixOriginals);
+            setMovie(
+                request.data.results[
+                    Math.floor(Math.random() * request.data.results.length - 1)
+                ]
+            );
+            return request;
+        }
+        fetchData();
+    }, []);
+
+    console.log(movie);
+
     function truncate(string, n){
         return string?.length > n ? string.substr(0, n-1) + '...' : string;
     }
@@ -10,18 +29,18 @@ function Banner() {
         className="banner" 
         style={{
             backgroundSize: "cover",
-            backgroundImage:`url("https://res.cloudinary.com/practicaldev/image/fetch/s--THrf5Yjw--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n6brz4p7iq7j1mulo1nv.jpg")`,
-            backgroundPosition: "center center",
-            }}
+            backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`, 
+            backgroundPosition: "center center", 
+        }}
         >
             <div className="banner__contents">
-                <h1 className="banner__title">Movie Name</h1>
+                <h1 className="banner__title">{movie?.name}</h1>
                 <div className="banner__buttons">
                     <button className="banner__button">Play</button>
                     <button className="banner__button">My List</button>
                 </div>
                 <h1 className="banner__description">
-                    {truncate(`This is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test descriptionThis is an test description`, 150)}
+                    {truncate(`${movie?.overview}`, 150)}
                 </h1>
             </div>
             <div className="banner--fadeBottom" />
