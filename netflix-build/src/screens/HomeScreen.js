@@ -1,18 +1,15 @@
 import React from 'react';
 import "./HomeScreen.css";
-import Navbar from "./Navbar.js";
-import Banner from "./Banner.js";
-import Row from "./Row.js";
-import requests from './Requests';
+import Navbar from "../Navbar.js";
+import Banner from "../Banner.js";
+import Row from "../Row.js";
+import requests from '../Requests';
 
 function HomeScreen() {
     return (
         <div className="homeScreen">
-            {/* Navbar */}
             <Navbar />
-            {/* Banner */}
             <Banner />
-            {/* Rows */}
             <Row
                 title="NETFLIX ORIGINALS"
                 fetchUrl={requests.fetchNetflixOriginals}
